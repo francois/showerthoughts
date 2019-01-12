@@ -1,0 +1,2 @@
+#!/bin/sh
+exec sequel --echo --migrate-directory db/migrate "${DATABASE_URL:-postgresql://localhost/shower_development}"

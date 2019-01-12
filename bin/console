@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require "bundler"
+Bundler.require :default
+
+require "irb"
+
+DB = Sequel.connect(ENV.fetch("DATABASE_URL", "postgresql://localhost/shower_development"))
+
+IRB.start
