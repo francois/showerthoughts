@@ -1,2 +1,2 @@
 #!/bin/sh
-exec bundle exec puma --port ${PORT:-3000}
+exec bundle exec puma --port ${PORT:-3000} --bind tcp://0.0.0.0
