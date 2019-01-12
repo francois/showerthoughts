@@ -32,11 +32,12 @@ end
 get "/:family_id" do |family_id|
   @showers = DB[:showers].
     select_append(
-      Sequel::SQL::PlaceholderLiteralString.new("round(extract(epoch from coalesce(lag(shower_at) over (partition by family_id, name order by shower_at desc), current_timestamp) - shower_at) / 3600)", []).as(:delta)
+      Sequel::SQL::PlaceholderLiteralString.new("round(extract(epoch from coalesce(lag(shower_at) over (partition by family_id, name order by shower_at desc), current_timestamp) - shower_at) / 3600)", []).as(:delta),
+      Sequel::SQL::PlaceholderLiteralString.new("shower_at AT TIME ZONE 'America/Montreal", []).as(:local_shower_at),
     ).
     where(family_id: family_id).
     order(:family_id, :name, Sequel.desc(:shower_at)).
-    each_with_object(Hash.new{|h, k| h[k] = Array.new}){|row, memo| memo[row[:name]] << row[:delta] << row[:shower_at]}. # group_by(row[:name])
+    each_with_object(Hash.new{|h, k| h[k] = Array.new}){|row, memo| memo[row[:name]] << row[:delta] << row[:local_shower_at]}. # group_by(row[:name])
     map{|name, rows| [name, rows.flatten.first(10)]}.
     to_h
 
