@@ -25,6 +25,10 @@ def split_showers(showers)
     }
 end
 
+get "/favicon.ico" do
+  [404, {}, ""]
+end
+
 get "/:family_id" do |family_id|
   @showers = DB[:showers].
     select_append(
