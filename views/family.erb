@@ -93,7 +93,11 @@ td {
                   <% if index.even? %>
                     &hellip; <%= duration_or_timestamp %>
                   <% else %>
-                    <%= duration_or_timestamp.strftime("%d %b, %H:%M") %>
+                    <% if Time.now - duration_or_timestamp > 6 * 24 * 60 * 60 %>
+                      <%= I18n.localize duration_or_timestamp, format: :a_while_ago %>
+                    <% else %>
+                      <%= I18n.localize duration_or_timestamp, format: :lately %>
+                    <% end %>
                 <% end %>
                 </div>
               <% end %>

@@ -2,9 +2,9 @@
 require "bundler"
 Bundler.require :default
 
+Dir["config/initializers/*.rb"].sort.each do |filename|
+  load filename
+end
+
 require "irb"
-require "logger"
-
-DB = Sequel.connect(ENV.fetch("DATABASE_URL", "postgresql://localhost/shower_development"), logger: Logger.new(STDOUT))
-
 IRB.start

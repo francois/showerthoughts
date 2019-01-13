@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 require "sinatra"
-require "sequel"
-require "logger"
 
-configure do
-  DB = Sequel.connect(ENV.fetch("DATABASE_URL", "postgresql://localhost/shower_development"), logger: Logger.new(STDERR))
+Dir["config/initializers/*.rb"].sort.each do |filename|
+  load filename
 end
 
 def hours_between(a, b)
