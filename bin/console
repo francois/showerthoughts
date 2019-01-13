@@ -3,7 +3,8 @@ require "bundler"
 Bundler.require :default
 
 require "irb"
+require "logger"
 
-DB = Sequel.connect(ENV.fetch("DATABASE_URL", "postgresql://localhost/shower_development"))
+DB = Sequel.connect(ENV.fetch("DATABASE_URL", "postgresql://localhost/shower_development"), logger: Logger.new(STDOUT))
 
 IRB.start
